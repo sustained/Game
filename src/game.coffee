@@ -1,18 +1,30 @@
 require [
 	'client/game'
-], (Game) ->
+	
+	'assets/image'
+], (Game, Image) ->
 	require [
+		'game/screens/load'
 		'game/screens/main'
-	], (Main) ->
+	], (ScreenLoad, ScreenMain) ->
 		game = new Game url:'http://192.168.0.2/Private/JS/Game/'
 		
-		#inside  = new Img 'inside'
-		#outside = new Img 'outside'
+		Image.setUrl Image.getUrl() + 'naughty/'
+		
+		ScreenLoad.assets.image =
+			inside:  'tilesets/inside'
+			outside: 'tilesets/outside'
+			
+			playerUp:    'sprites/animated/player_up'
+			playerDown:  'sprites/animated/player_down'
+			playerLeft:  'sprites/animated/player_left'
+			playerRight: 'sprites/animated/player_right'
 		
 		Motion.event.on 'load', ->
-			game.screen.add 'main', Main, true
-			game.screen.register()
+			game.screen.add 'load', ScreenLoad, enable: true
+			game.screen.add 'main', ScreenMain
 			
+			game.screen.register()
 			game.loop.start()
 			
-			console.log window.game = game
+			Motion.root.game = game
