@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="../MotionJS/vendor/jquery.js"></script>
-	
+	<title>Game</title>
+
+	<link rel="stylesheet" href="../MotionJS/assets/style/motion.css" />
+		
+	<script src="../MotionJS/vendor/jquery/jquery.js"></script>
+
 	<script>
 jQuery.noConflict();
 
 var require = {
 	baseUrl: 'http://192.168.0.2/Private/JS/MotionJS/lib/'
-,	deps: ['game/game']
+//,	deps: ['game/game']
 ,	paths: {
-		'game':   '../../Game/lib'
+		'fs':     'client/node/fs'
+	,	'path':   'client/node/path'
+	,	'game':   '../../Game/lib'
 	,	'vendor': '../vendor'
 	}
 ,	priority: [
-		'natives/array'
+	,	'natives/array'
 	,	'natives/function'
 	,	'natives/math'
 	,	'natives/number'
 	,	'natives/object'
 	,	'natives/regexp'
 	,	'natives/string'
-		
 	,	'core/core'
 	]
-,	callback: function() {}
 ,	urlArgs: "nocache=" +  (new Date()).getTime()
 };
 	</script>
-	
-	<script src="../MotionJS/vendor/require.js"></script>
+
+	<script src="../MotionJS/vendor/requirejs/require.js" data-main="game/game"></script>
 </head>
 <body>
 </body>
