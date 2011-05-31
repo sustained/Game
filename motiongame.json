@@ -1,3 +1,17 @@
 {
-	
+	"delta": "0.016666666666666666"
+,	"preload": {
+		"image": {
+			"inside": "tilesets/inside"
+		,	"outside": "tilesets/outside"
+		,	"walkRun": "sprites/animated/hero/walking and running"
+		}
+	}
+,	"states": [
+		"load"
+	,	"main"
+	]
+,	"entities": [
+		"player"
+	]
 }
