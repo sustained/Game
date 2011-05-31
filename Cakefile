@@ -20,20 +20,16 @@ brew = (options, callbacks = {}) ->
 	
 	coffee
 
-task 'build', 'Build....', ->
-	puts 'Building...'
-	
-	if $lib.indexOf('/Game/') is -1
-		process.exit 1
-	
+task 'build', 'Build...', ->
+	puts '[Building]'
+	puts "$lib = #{$lib}"
+	puts "$src = #{$src}\n"
+	print "1) Cleaning  lib directory... "
+
 	exec "rm -rf #{$lib}*", ->
-		puts "Cleaned lib/ directory [#{$lib}]"
-		
-		brew '--compile --bare --output lib/ src/', {
-			onexit: ->
-				puts "Compiled src/ directory [#{$src}]"
-				puts "Done"
-		}
+		puts "done!"
+		print "2) Compiling src directory... "
+		brew '--compile --bare --output lib/ src/', onexit: -> puts "done!"
 
 task 'watch', 'Auto-compile...', ->
 	brew '--compile --bare --watch --output lib/ src/'
