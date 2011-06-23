@@ -1,25 +1,25 @@
 require [
 	'client/game'
-
-	'core/loop'
-
-	'graphics/canvas'
-], (CGame, Loop, Canvas) ->
-	game = new CGame {
-		url: 'http://192.168.0.2/Private/JS/Game/',
+	'client/graphics/canvas'
+], (Game, Canvas) ->
+	window.g = game = new Game {
+		url: 'http://localhost/Private/JS/Game/'
+		setup: ->
+			console.log 'setup fn'
 		ready: ->
+			console.log 'ready fn'
+
 			@canvas = new Canvas
 			@canvas.create()
 
 			for name, state of @state.states
 				state.bind 'update', null, [@loop.delta]
 				state.bind 'render', null, [@canvas.context]
-			
-			@state.enable 'load'
-			@state.register()
 
-			Loop.INTERVAL_WAIT = 5
+			@state.register()
 			
 			@loop.showFps()
-			@loop.start()
+			@loop.play()
+
+			@state.enable 'load'
 	}
