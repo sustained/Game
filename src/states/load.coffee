@@ -1,8 +1,12 @@
 define [
 	'client/screen/screen'
-	
-	'assets/batch'
-], (Screen, Batch) ->
+	'client/assets/batch'
+
+	'shared/animation/tween'
+	'shared/animation/easing'
+], (Screen, Batch, Tween, Easing) ->
+	{Vector} = Math
+
 	class Load extends Screen
 		# loading bar, not foo bar
 		bar       = width: 200, height: 30
@@ -11,17 +15,19 @@ define [
 		
 		constructor: ->
 			super
-
-			@assets = new Batch
 			
+			@assets = new Batch
 			@assets.add @game.config.preload.image, 'image'
 
 			@magicNumber = bar.width / @assets.length
 
-			@assets.event.on 'loaded', => @toggle 'main'
-			@assets.load()
+			#@input = @input.bind @, @game.keyboard, @game.mouse
 		
-		update: ->
+		focus: ->
+			@game.state.toggle 'load', 'title'
+		
+		load: ->
+			@assets.load()
 		
 		render: (g) ->
 			g.clearRect 0, 0, 1024, 768
