@@ -9,6 +9,7 @@
 	}
 ,	"states": [
 		"load"
+	,	"title"
 	,	"main"
 	]
 ,	"entities": [
