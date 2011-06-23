@@ -4,37 +4,18 @@
 	<title>Game</title>
 
 	<link rel="stylesheet" href="../MotionJS/assets/style/motion.css" />
-		
-	<script src="../MotionJS/vendor/jquery/jquery.js"></script>
-
-	<script>
-jQuery.noConflict();
-
-var require = {
-	baseUrl: 'http://192.168.0.2/Private/JS/MotionJS/lib/'
-//,	deps: ['game/game']
-,	paths: {
-		'fs':     'client/node/fs'
-	,	'path':   'client/node/path'
-	,	'game':   '../../Game/lib'
-	,	'vendor': '../vendor'
-	}
-,	priority: [
-	,	'natives/array'
-	,	'natives/function'
-	,	'natives/math'
-	,	'natives/number'
-	,	'natives/object'
-	,	'natives/regexp'
-	,	'natives/string'
-	,	'core/core'
-	]
-,	urlArgs: "nocache=" +  (new Date()).getTime()
-};
-	</script>
-
-	<script src="../MotionJS/vendor/requirejs/require.js" data-main="game/game"></script>
 </head>
 <body>
+	<script src="../MotionJS/lib/shared/init.js"></script>
+
+	<script>
+require = Motion.init({
+	appDir: '/Private/JS/Game/'
+,	sysDir: '/Private/JS/MotionJS/'
+,	cacheBust: true
+});
+	</script>
+
+	<script src="../MotionJS/dep/requirejs/require.js" data-main="app/game"></script>
 </body>
 </html>
