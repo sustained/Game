@@ -2,17 +2,17 @@ define [
 	'client/screen/screen'
 	'client/renderer/canvas'
 
-	'assets/asset'
-	'assets/image'
+	'client/assets/asset'
+	'client/assets/image'
 	
-	'graphics/canvas'
-	'graphics/sprite'
-	'graphics/tileset'
-	'graphics/tilemap'
+	'client/graphics/canvas'
+	'client/graphics/sprite'
+	'client/graphics/tileset'
+	'client/graphics/tilemap'
 	
-	'animation/tileset'
+	'client/animation/tileset'
 	
-	'world/tiled'
+	'shared/world/tiled'
 ], (Screen, CRenderer, Asset, Canvas, Image, Sprite, TileSet, TileMap, TileSetAnim, TWorld) ->
 	{Colour} = Motion
 	{Vector} = Math
@@ -31,53 +31,11 @@ define [
 				bottom: 0
 			}
 		
-		update: (dt, t) ->
-			@player.update dt, t
-
-			@cam.top    = @cam.pos[1]
-			@cam.bottom = @cam.pos[1] + 768
-			@cam.left   = @cam.pos[0]
-			@cam.right  = @cam.pos[0] + 1024
-
-			pX = @player.position[0]
-			pY = @player.position[1]
-			hW = 1024 / 2
-			hH =  768 / 2
-
-			if pX - hW < 0
-				@cam.pos[0] = 0
-			else if pX + hW > @world.size[0]
-				@cam.pos[0] = @world.size[0] - 1024
-			else
-				@cam.pos[0] = pX - hW
-			
-			if pY - hH < 0
-				@cam.pos[1] = 0
-			else if pY + hH > @world.size[1]
-				@cam.pos[1] = @world.size[1] - 768
-			else
-				@cam.pos[1] = pY - hH
-		
-		render: (g) ->
-			g.clearRect 0, 0, 1024, 768
-
-			g.translate -Math.round(@cam.pos[0]), -Math.round(@cam.pos[1])
-
-			g.globalCompositeOperation = 'source-over'
-
-			g.drawImage @ground.prerendered, 0, 0
-			g.drawImage @bushes.prerendered, 0, 0
-			@player.render g
-
-			g.translate Math.round(@cam.pos[0]), Math.round(@cam.pos[1])
-
 		load: ->
 			@world = @game.world = new TWorld [1024 * 4, 768 * 4]
 			@world.inside  = new TileSet 'inside',  size: 16
 			@world.outside = new TileSet 'outside', size: 16
 			@world.walkrun = new TileSet 'walkRun', size: [16, 20]
-
-			@player = new @game.entities[0](@game)
 
 			groundTilemap = []
 			bushesTilemap = []
@@ -113,5 +71,50 @@ define [
 			@ground.prerender()
 			@bushes.prerender()
 
+			@world.collision = collisionMap
+
+			@player = new @game.entities[0](@game)
 			#@renderer = new CRenderer @game.canvas, bind: @
 			#@renderer.add @draw
+
+		update: (dt, t) ->
+			@game.keyboard.update dt
+			@player.update dt, t
+
+			@cam.top    = @cam.pos[1]
+			@cam.bottom = @cam.pos[1] + 768
+			@cam.left   = @cam.pos[0]
+			@cam.right  = @cam.pos[0] + 1024
+
+			pX = @player.pos.i
+			pY = @player.pos.j
+			hW = 1024 / 2
+			hH =  768 / 2
+
+			if pX - hW < 0
+				@cam.pos[0] = 0
+			else if pX + hW > @world.size[0]
+				@cam.pos[0] = @world.size[0] - 1024
+			else
+				@cam.pos[0] = pX - hW
+			
+			if pY - hH < 0
+				@cam.pos[1] = 0
+			else if pY + hH > @world.size[1]
+				@cam.pos[1] = @world.size[1] - 768
+			else
+				@cam.pos[1] = pY - hH
+		
+		render: (g) ->
+			g.clearRect 0, 0, 1024, 768
+
+			g.translate -Math.round(@cam.pos[0]), -Math.round(@cam.pos[1])
+
+			g.globalCompositeOperation = 'source-over'
+
+			g.drawImage @ground.prerendered, 0, 0
+			g.drawImage @bushes.prerendered, 0, 0
+			
+			@player.render g
+
+			g.translate Math.round(@cam.pos[0]), Math.round(@cam.pos[1])
