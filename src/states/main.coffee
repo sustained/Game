@@ -1,25 +1,20 @@
+###'client/assets/asset'
+'client/assets/image'
+'client/graphics/canvas'
+'client/graphics/sprite'
+'client/graphics/tileset'
+'client/graphics/tilemap'
+'client/animation/tileset'
+'shared/world/tiled'###
 define [
 	'client/screen/screen'
-	'client/renderer/canvas'
-
-	'client/assets/asset'
-	'client/assets/image'
-	
-	'client/graphics/canvas'
-	'client/graphics/sprite'
-	'client/graphics/tileset'
-	'client/graphics/tilemap'
-	
-	'client/animation/tileset'
-	
-	'shared/world/tiled'
-], (Screen, CRenderer, Asset, Canvas, Image, Sprite, TileSet, TileMap, TileSetAnim, TWorld) ->
-	{Colour} = Motion
+], (Screen, Asset, Image, Canvas, Sprite, TileSet, TileMap, TileSetAnim, TWorld) ->
+	#{Colour} = Motion
 	{Vector} = Math
-	
+
 	class Main extends Screen
 		anim: null
-		
+
 		constructor: ->
 			super
 
@@ -30,7 +25,7 @@ define [
 				right: 0
 				bottom: 0
 			}
-		
+
 		load: ->
 			@world = @game.world = new TWorld [1024 * 4, 768 * 4]
 			@world.inside  = new TileSet 'inside',  size: 16
@@ -40,12 +35,12 @@ define [
 			groundTilemap = []
 			bushesTilemap = []
 			collisionMap  = []
-			
+
 			mapNumTilesX    = @world.size[0] / 16
 			mapNumTilesY    = @world.size[1] / 16
 			screenNumTilesX = 1024 / 16
 			screenNumTilesY =  768 / 16
-			
+
 			groundLayerTiles = [2, 5, 9, 10, 17, 18]
 			bushesLayerTiles = [0, 0, 0, 0, 0, 0, 6]
 
@@ -64,7 +59,7 @@ define [
 
 					i++
 				j++
-			
+
 			@ground = new TileMap @world.outside, groundTilemap
 			@bushes = new TileMap @world.outside, bushesTilemap
 
@@ -97,14 +92,14 @@ define [
 				@cam.pos[0] = @world.size[0] - 1024
 			else
 				@cam.pos[0] = pX - hW
-			
+
 			if pY - hH < 0
 				@cam.pos[1] = 0
 			else if pY + hH > @world.size[1]
 				@cam.pos[1] = @world.size[1] - 768
 			else
 				@cam.pos[1] = pY - hH
-		
+
 		render: (g) ->
 			g.clearRect 0, 0, 1024, 768
 
@@ -114,7 +109,7 @@ define [
 
 			g.drawImage @ground.prerendered, 0, 0
 			g.drawImage @bushes.prerendered, 0, 0
-			
+
 			@player.render g
 
 			g.translate Math.round(@cam.pos[0]), Math.round(@cam.pos[1])

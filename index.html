@@ -6,16 +6,15 @@
 	<link rel="stylesheet" href="../MotionJS/assets/style/motion.css" />
 </head>
 <body>
+	<script src="../MotionJS/vendor/jquery/jquery.js"></script>
+	<script src="../MotionJS/vendor/underscore/underscore.js"></script>
+
 	<script src="../MotionJS/lib/shared/init.js"></script>
 
 	<script>
-require = Motion.init({
-	appDir: '/Private/JS/Game/'
-,	sysDir: '/Private/JS/MotionJS/'
-,	cacheBust: true
-});
+this.require = motionInit('/Private/JS/MotionJS/', {app: '/Private/JS/Game/'});
 	</script>
 
-	<script src="../MotionJS/dep/requirejs/require.js" data-main="app/game"></script>
+	<script src="../MotionJS/vendor/requirejs/require.js" data-main="app/game"></script>
 </body>
 </html>
