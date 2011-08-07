@@ -27,17 +27,16 @@ define [
 			}
 
 		load: ->
-			@world = @game.world = new TWorld [1024 * 4, 768 * 4]
-			@world.inside  = new TileSet 'inside',  size: 16
-			@world.outside = new TileSet 'outside', size: 16
-			@world.walkrun = new TileSet 'walkRun', size: [16, 20]
+			@inside  = new TileSet 'inside',  size: 16
+			@outside = new TileSet 'outside', size: 16
+			@walkrun = new TileSet 'walkRun', size: [16, 20]
 
 			groundTilemap = []
 			bushesTilemap = []
 			collisionMap  = []
 
-			mapNumTilesX    = @world.size[0] / 16
-			mapNumTilesY    = @world.size[1] / 16
+			#mapNumTilesX    = @world.size[0] / 16
+			#mapNumTilesY    = @world.size[1] / 16
 			screenNumTilesX = 1024 / 16
 			screenNumTilesY =  768 / 16
 
