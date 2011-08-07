@@ -29,5 +29,6 @@ define [
 			#	@manager.enable  'main'
 		
 		update: (dt, t) ->
+			@manager.loop.fps()
 		
 		render: (g) ->
