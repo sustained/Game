@@ -18,7 +18,7 @@ define [
 		constructor: ->
 			super
 		
-		setup: (options = {}) ->
+		__setup: (options = {}) ->
 			@bar =
 				w: options.width  or Load.defaults.width
 				h: options.height or Load.defaults.height

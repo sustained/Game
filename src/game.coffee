@@ -7,9 +7,12 @@ require [
 	'client/graphics/canvas'
 
 	'shared/state/state'
-], (Motion, Loop, Manager, Screen, Canvas, State) ->
-	gloop  = new Loop
-	state  = new Manager
+], (Motion, Loop, ScreenManager, Screen, Canvas, State) ->
+	gloop = new Loop
+	#sched  = new ScheduleManager gloop
+	state = new ScreenManager
+	state.autoPause = false
+
 	canvas = new Canvas
 
 	state.register gloop
@@ -27,17 +30,16 @@ require [
 		state.add 'test2', STest
 		state.add 'test3', STest
 
-		state.forEach (state) ->
-			state.render = state.render.bind state, canvas.context
-		, true
+		jQuery ->
+			state.forEach ((state) -> state.render = state.render.bind state, canvas.context), true
 
 		audio = state.$ 'loadAudio'
 		image = state.$ 'loadImage'
 		video = state.$ 'loadVideo'
 
-		audio.setup toLoad: 10, loading: 'sounds'
-		image.setup toLoad: 20, loading: 'images'
-		video.setup toLoad:  5, loading: 'videos'
+		audio.__setup toLoad: 10, loading: 'sounds'
+		image.__setup toLoad: 20, loading: 'images'
+		video.__setup toLoad:  5, loading: 'videos'
 
 		audio.loaded = -> audio.toggle 'loadImage'
 		image.loaded = -> image.toggle 'loadVideo'
