@@ -6,15 +6,18 @@
 	<link rel="stylesheet" href="../MotionJS/assets/style/motion.css" />
 </head>
 <body>
-	<script src="../MotionJS/vendor/jquery/jquery.js"></script>
-	<script src="../MotionJS/vendor/underscore/underscore.js"></script>
+	<script src="../MotionJS/vendor/jquery/jquery.min.js"></script>
+	<script src="../MotionJS/vendor/underscore/underscore.min.js"></script>
 
 	<script src="../MotionJS/lib/shared/init.js"></script>
 
 	<script>
-this.require = motionInit('/Private/JS/MotionJS/', {app: '/Private/JS/Game/'});
+this.require = window.motion('/Private/JS/MotionJS/', {app: '/Private/JS/Game/lib/'}, function() {
+	require(['app/game']);
+});
+window.motion = null
 	</script>
 
-	<script src="../MotionJS/vendor/requirejs/require.js" data-main="app/game"></script>
+	<script src="../MotionJS/vendor/requirejs/require.js"></script>
 </body>
 </html>
