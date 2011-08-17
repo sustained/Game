@@ -12,7 +12,8 @@ define [
 	#'app/entities/player'
 
 	'shared/world/tiled'
-], (Screen, Keyboard, Sprite, TileSet, TileMap, TileSetAnim, TWorld) ->
+	'shared/utilities/astar'
+], (Screen, Keyboard, Sprite, TileSet, TileMap, TileSetAnim, TWorld, AStar) ->
 	{Vector} = Math
 	keyboard = Keyboard.instance()
 
@@ -42,14 +43,9 @@ define [
 				@cam.pos[0] += 4
 
 		load: ->
-			console.log 'MainScreen#load'
-
-			console.log 'creating tilesets'
-			console.log @inside  = new TileSet 'inside',  size: 16
-			console.log @outside = new TileSet 'outside', size: 16
+			@inside  = new TileSet 'inside',  size: 16
+			@outside = new TileSet 'outside', size: 16
 			#@walkrun = new TileSet 'walkRun', size: [16, 20]
-
-			console.log 'building tilemaps'
 
 			groundTilemap = []
 			bushesTilemap = []
@@ -80,14 +76,15 @@ define [
 					i++
 				j++
 
-			console.log @ground = new TileMap @outside, groundTilemap
-			console.log @bushes = new TileMap @outside, bushesTilemap
+			@ground = new TileMap @outside, groundTilemap
+			@bushes = new TileMap @outside, bushesTilemap
 
 			@ground.prerender()
 			@bushes.prerender()
 
 			@collision = collisionMap
 
+			@astar = new AStar @collision
 			#@player = new Player @game
 			#@renderer = new CRenderer @game.canvas, bind: @
 			#@renderer.add @draw
