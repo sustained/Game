@@ -2,6 +2,7 @@ require [
 	'shared/core'
 
 	'client/loop'
+	'client/input/keyboard'
 	'client/assets/image'
 	'client/screen/manager'
 	'client/screen/screen'
@@ -9,7 +10,7 @@ require [
 	'client/graphics/canvas'
 
 	'shared/state/state'
-], (Motion, Loop, Image, ScreenManager, Screen, SLoader, Canvas, State) ->
+], (Motion, Loop, Keyboard, Image, ScreenManager, Screen, SLoader, Canvas, State) ->
 	gloop = new Loop
 	#sched  = new ScheduleManager gloop
 	state = new ScreenManager
@@ -25,15 +26,9 @@ require [
 		'app/states/title'
 		'app/states/main'
 	], (STitle, SMain) ->
-		#state.add 'loadAudio', SLoad
 		state.add 'loader', SLoader
+		state.add 'title', STitle
 		state.add 'main', SMain
-		#state.add 'loadVideo', SLoad
-		#state.add 'title', STitle
-		#state.add 'main', SMain
-		#state.add 'test1', STest
-		#state.add 'test2', STest
-		#state.add 'test3', STest
 
 		jQuery ->
 			state.forEach ((state) -> state.render = state.render.bind state, canvas.context), true
@@ -42,20 +37,11 @@ require [
 		images.setAssets image: {
 			"inside": "naughty/tilesets/inside"
 			"outside": "naughty/tilesets/outside"
-			"frog": "frog.jpg"
-			"accept": "accept"
-			"arrowRefresh": "arrow_refresh"
-			"cog": "cog"
-			"delete": "delete"
-			"help": "help"
-			"information": "information"
-			#"inside": "tilesets/inside"
-			#"outside": "tilesets/outside"
 			#"walkRun": "sprites/animated/hero/walking and running"
 		}
 		images.loaded = ->
 			console.log 'images loaded'
-			images.toggle 'main'
+			images.toggle 'title'
 
 		state.enable 'loader'
 
