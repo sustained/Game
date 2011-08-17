@@ -5,6 +5,7 @@ define [
 	'shared/animation/tween'
 ], (TileSet, TileSetAnim, TweenAnim) ->
 	{Vector} = Math
+	{extend} = _
 
 	MOVEMENT = 
 		none:  1 << 0
@@ -21,11 +22,11 @@ define [
 			@pos     = new Vector 1024 / 2, 768 / 2
 			@posAnim = new Vector().copy(@pos).floor()
 
-			animOptsWalk = duration: 0.25,  tileset: @game.world.walkrun
-			animOptsRun  = duration: 0.125, tileset: @game.world.walkrun
+			animOptsWalk = duration: 0.25,  tileset: TileSet.get 'walkrun'
+			animOptsRun  = duration: 0.125, tileset: TileSet.get 'walkrun'
 
-			walk = (seq) -> new TileSetAnim Object.extend animOptsWalk, sequence: seq
-			run  = (seq) -> new TileSetAnim Object.extend animOptsRun,  sequence: seq
+			walk = (seq) -> new TileSetAnim extend animOptsWalk, sequence: seq
+			run  = (seq) -> new TileSetAnim extend animOptsRun,  sequence: seq
 
 			# tweener for movement
 			@mover = new TweenAnim object: @, property: 'pos', active: false, duration: 1.0
