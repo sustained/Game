@@ -11,8 +11,8 @@ define [
 
 	#'app/entities/player'
 
-	'shared/world/tiled'
-	'shared/utilities/astar'
+	'world/tiled'
+	'utilities/astar'
 ], (Screen, Keyboard, Sprite, TileSet, TileMap, TileSetAnim, TWorld, AStar) ->
 	{Vector} = Math
 	keyboard = Keyboard.instance()

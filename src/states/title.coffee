@@ -2,8 +2,8 @@ define [
 	'client/screen/screen'
 	'client/input/keyboard'
 
-	'shared/animation/tween'
-	'shared/animation/easing'
+	'animation/tween'
+	'animation/easing'
 ], (Screen, Keyboard, Tween, Easing) ->
 	keyboard = Keyboard.instance()
 	{Vector} = Math

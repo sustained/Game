@@ -1,5 +1,5 @@
 require [
-	'shared/core'
+	'core'
 
 	'client/loop'
 	'client/input/keyboard'
@@ -9,7 +9,7 @@ require [
 	'client/screen/loader'
 	'client/graphics/canvas'
 
-	'shared/state/state'
+	'state/state'
 ], (Motion, Loop, Keyboard, Image, ScreenManager, Screen, SLoader, Canvas, State) ->
 	gloop = new Loop
 	#sched  = new ScheduleManager gloop
