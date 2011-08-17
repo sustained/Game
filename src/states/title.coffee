@@ -1,9 +1,11 @@
 define [
 	'client/screen/screen'
+	'client/input/keyboard'
 
 	'shared/animation/tween'
 	'shared/animation/easing'
-], (Screen, Tween, Easing) ->
+], (Screen, Keyboard, Tween, Easing) ->
+	keyboard = Keyboard.instance()
 	{Vector} = Math
 
 	class Title extends Screen
@@ -25,7 +27,7 @@ define [
 				)
 				.appendTo(@el)
 
-			start = new Vector 0, -(768 * 2)
+			start = new Vector -1024, -768
 			end   = new Vector 0, 0
 
 			@pos = start.clone()
@@ -33,22 +35,24 @@ define [
 			#listener = =>
 			#	@pos = start.clone()
 			#	@tween.tim
-				
+			
+			@input = @input.bind @, keyboard
+
 			@tween = new Tween {
 				object: [@, 'pos'], start: start, end: end,
-				duration: 5, easing: 'quintic.out'}
+				duration: 1, easing: 'quintic.inOut', "loop": "repeat"}
 		
 		focus: -> @el.show()
 		blur:  -> @el.hide()
 		
-		input: (kb, ms, dt, t) ->
-			#if kb.down('space') and kb.life('space') > 0.25
-			#	@manager.disable 'title'
-			#	@manager.enable  'main'
+		input: (kb) ->
+			if kb.down('space') and kb.life('space') > 0.25
+				@manager.disable 'title'
+				@manager.enable  'main'
 		
 		update: (dt, t) ->
-			#@game.keyboard.update dt, t
-			#@input dt, t
+			keyboard.update dt, t
+			@input()
 
 			@tween.update dt, t
 			@el.css 'left', @pos.i
