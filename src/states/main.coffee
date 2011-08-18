@@ -43,13 +43,24 @@ define [
 				@cam.pos[0] += 4
 
 		load: ->
-			@inside  = new TileSet 'inside',  size: 16
+			@walls = new TileSet 'walls', size: 16
+			@inside = new TileSet 'inside', size: 16
 			@outside = new TileSet 'outside', size: 16
 			#@walkrun = new TileSet 'walkRun', size: [16, 20]
 
 			groundTilemap = []
 			bushesTilemap = []
-			collisionMap  = []
+			wallsTilemap = [
+				[40,  1,  3,  7,  3,  3,  7,  3,  5, 48]
+				[40,  9, 11, 15, 11, 11, 15, 11, 13, 48]
+				[40,  0,  0,  0,  0,  0,  0,  0,  0, 48]
+				[40,  0,  0,  0,  0,  0,  0,  0,  0, 48]
+				[40,  0,  0,  0,  0,  0,  0,  0,  0, 48]
+				[40,  0,  0,  0,  0,  0,  0,  0,  0, 48]
+				[37, 19, 19, 23,  0,  0, 23, 19, 19, 39]
+				[45, 27, 27, 31,  0,  0, 31, 27, 27, 47]
+			]
+			collisionMap = []
 
 			mapNumTilesX    = (1024 * 2) / 16
 			mapNumTilesY    = ( 768 * 2) / 16
@@ -78,9 +89,11 @@ define [
 
 			@ground = new TileMap @outside, groundTilemap
 			@bushes = new TileMap @outside, bushesTilemap
+			@walls  = new TileMap @walls, wallsTilemap
 
 			@ground.prerender()
 			@bushes.prerender()
+			@walls.prerender()
 
 			@collision = collisionMap
 
@@ -127,6 +140,7 @@ define [
 
 			g.drawImage @ground.prerendered, 0, 0
 			g.drawImage @bushes.prerendered, 0, 0
+			g.drawImage @walls.prerendered, 0, 0
 
 			#@player.render g
 
