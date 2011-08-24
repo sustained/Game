@@ -35,9 +35,10 @@ require [
 
 		images = state.$ 'loader'
 		images.setAssets image: {
-			"walls": "tilesets/walls"
-			"inside": "naughty/tilesets/inside"
-			"outside": "naughty/tilesets/outside"
+			"blob": "tilesets/blob"
+			"walls": "tilesets/brick_walls"
+			#"inside": "naughty/tilesets/inside"
+			#"outside": "naughty/tilesets/outside"
 			#"walkRun": "sprites/animated/hero/walking and running"
 		}
 		images.loaded = ->
