@@ -35,7 +35,8 @@ require [
 
 		images = state.$ 'loader'
 		images.setAssets image: {
-			"blob": "tilesets/blob"
+			"blob": "tilesets/characters/blob/blob"
+			"ninja": "tilesets/accessories/ninja-suit.png"
 			"walls": "tilesets/brick_walls"
 			#"inside": "naughty/tilesets/inside"
 			#"outside": "naughty/tilesets/outside"
