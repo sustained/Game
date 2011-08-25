@@ -9,11 +9,11 @@ define [
 
 	'client/animation/tileset'
 
-	#'app/entities/player'
+	'app/entities/player'
 
 	'world/tiled'
 	'utilities/astar'
-], (Screen, Keyboard, Sprite, TileSet, TileMap, TileSetAnim, TWorld, AStar) ->
+], (Screen, Keyboard, Sprite, TileSet, TileMap, TileSetAnim, Player, TWorld, AStar) ->
 	{Vector} = Math
 	keyboard = Keyboard.instance()
 
@@ -43,14 +43,10 @@ define [
 				@cam.pos[0] += 4
 
 		load: ->
-			@walls = new TileSet 'walls', size: 32
+			@tsBlob  = new TileSet 'blob',  size: 32
+			@tsNinja = new TileSet 'ninja', size: 32
+			@tsWalls = new TileSet 'walls', size: 32
 
-			#@inside = new TileSet 'inside', size: 16
-			#@outside = new TileSet 'outside', size: 16
-			#@walkrun = new TileSet 'walkRun', size: [16, 20]
-
-			groundTilemap = []
-			bushesTilemap = []
 			###wallsTilemap = [
 				[40,  1,  3,  7,  3,  3,  7,  3,  5, 48]
 				[40,  9, 11, 15, 11, 11, 15, 11, 13, 48]
@@ -61,51 +57,34 @@ define [
 				[37, 19, 19, 23,  0,  0, 23, 19, 19, 39]
 				[45, 27, 27, 31,  0,  0, 31, 27, 27, 47]
 			]###
+			wallsTilemap = []
 			collisionMap = []
+			mapNumTilesX = (1024 * 2) / 16
+			mapNumTilesY = ( 768 * 2) / 16
 
-			mapNumTilesX    = (1024 * 2) / 16
-			mapNumTilesY    = ( 768 * 2) / 16
-
-			screenNumTilesX = (1024 * 2) / 16
-			screenNumTilesY = ( 768 * 2) / 16
-
-			groundLayerTiles = [2, 5, 9, 10, 17, 18]
-			bushesLayerTiles = [0, 0, 0, 0, 0, 0, 6]
-
-			j = 0 ;; while j < mapNumTilesY
-				groundTilemap.push []
-				bushesTilemap.push []
-				collisionMap.push  []
-
-				i = 0 ;; while i < mapNumTilesX
-					groundTile = groundLayerTiles[Math.floor Math.rand() * groundLayerTiles.length]
-					bushesTile = bushesLayerTiles[Math.floor Math.rand() * bushesLayerTiles.length]
-
-					groundTilemap[j].push groundTile
-					bushesTilemap[j].push bushesTile
-					collisionMap[j].push if bushesTile is 0 then 0 else 1
-
+			j = 0 ; while j < mapNumTilesY
+				wallsTilemap.push []
+				collisionMap.push []
+				i = 0 ; while i < mapNumTilesX
+					wall = Math.random() > 0.90
+					wallsTilemap[j].push(if wall then 1 else 0)
+					collisionMap[j].push(if wall then 1 else 0)
 					i++
 				j++
 
-			@ground = new TileMap @outside, groundTilemap
-			@bushes = new TileMap @outside, bushesTilemap
-			@walls  = new TileMap @walls, wallsTilemap
-
-			@ground.prerender()
-			@bushes.prerender()
+			@walls = new TileMap @tsWalls, wallsTilemap
 			@walls.prerender()
 
 			@collision = collisionMap
 
-			@astar = new AStar @collision
-			#@player = new Player @game
+			#@astar = new AStar @collision
+			@player = new Player @game
 			#@renderer = new CRenderer @game.canvas, bind: @
 			#@renderer.add @draw
 
 		update: (dt, t) ->
 			#@game.keyboard.update dt
-			#@player.update dt, t
+			@player.update dt, t
 			@input()
 
 			###@cam.top    = @cam.pos[1]
@@ -139,10 +118,10 @@ define [
 
 			g.globalCompositeOperation = 'source-over'
 
-			g.drawImage @ground.prerendered, 0, 0
-			g.drawImage @bushes.prerendered, 0, 0
 			g.drawImage @walls.prerendered, 0, 0
+			#g.drawImage @bushes.prerendered, 0, 0
+			#g.drawImage @walls.prerendered, 0, 0
 
-			#@player.render g
+			@player.render g
 
 			g.translate Math.round(@cam.pos[0]), Math.round(@cam.pos[1])
