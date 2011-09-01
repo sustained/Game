@@ -83,9 +83,12 @@ define [
 			#@renderer.add @draw
 
 		update: (dt, t) ->
-			#@game.keyboard.update dt
+			keyboard.update dt
 			@player.update dt, t
 			@input()
+
+			@walls.prerendered.style.left = "#{-@cam.pos[0]}px"
+			@walls.prerendered.style.top = "#{-@cam.pos[1]}px"
 
 			###@cam.top    = @cam.pos[1]
 			@cam.bottom = @cam.pos[1] + 768
@@ -118,7 +121,7 @@ define [
 
 			g.globalCompositeOperation = 'source-over'
 
-			g.drawImage @walls.prerendered, 0, 0
+			#g.drawImage @walls.prerendered, 0, 0
 			#g.drawImage @bushes.prerendered, 0, 0
 			#g.drawImage @walls.prerendered, 0, 0
 
