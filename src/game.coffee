@@ -36,11 +36,12 @@ require [
 		images = state.$ 'loader'
 		images.setAssets image: {
 			"blob": "tilesets/characters/blob/blob"
-			"ninja": "tilesets/accessories/ninja-suit.png"
+			"ninja": "tilesets/accessories/ninja-suit"
 			"walls": "tilesets/brick_walls"
-			#"inside": "naughty/tilesets/inside"
-			#"outside": "naughty/tilesets/outside"
-			#"walkRun": "sprites/animated/hero/walking and running"
+			"pistolN": "sprites/weapons/pistol/n"
+			"pistolE": "sprites/weapons/pistol/e"
+			"pistolS": "sprites/weapons/pistol/s"
+			"pistolW": "sprites/weapons/pistol/w"
 		}
 		images.loaded = ->
 			console.log 'images loaded'
