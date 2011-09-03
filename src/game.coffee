@@ -18,8 +18,9 @@ require [
 
 	canvas = new Canvas
 
+	#gloop.register _.bindAll state, {enter, leave, update}
 	state.register gloop
-	
+
 	Image.setUrl 'assets/image/'
 
 	require [
