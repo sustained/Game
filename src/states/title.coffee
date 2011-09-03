@@ -28,7 +28,7 @@ define [
 				.appendTo(@el)
 
 			start = new Vector -1024, -768
-			end   = new Vector 0, 0
+			end   = new Vector 1024, 768
 
 			@pos = start.clone()
 
@@ -40,7 +40,7 @@ define [
 
 			@tween = new Tween {
 				object: [@, 'pos'], start: start, end: end,
-				duration: 1, easing: 'quintic.inOut', "loop": "repeat"}
+				duration: 5, easing: 'quintic.inOut', "loop": "repeat"}
 		
 		focus: -> @el.show()
 		blur:  -> @el.hide()
